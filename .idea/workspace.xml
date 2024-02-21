@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1575cdbd-931d-495b-8e43-166d9f1933db" name="Changes" comment="add &amp; display CityHistory">
+    <list default="true" id="1575cdbd-931d-495b-8e43-166d9f1933db" name="Changes" comment="Update CityHistory">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Connection_DB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Connection_DB.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Menu.java" afterDir="false" />
@@ -152,7 +152,15 @@
       <option name="project" value="LOCAL" />
       <updated>1708556925674</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Update CityHistory">
+      <option name="closed" value="true" />
+      <created>1708559069521</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1708559069521</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -163,6 +171,7 @@
     <MESSAGE value="updatecity" />
     <MESSAGE value="delete city" />
     <MESSAGE value="add &amp; display CityHistory" />
-    <option name="LAST_COMMIT_MESSAGE" value="add &amp; display CityHistory" />
+    <MESSAGE value="Update CityHistory" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update CityHistory" />
   </component>
 </project>

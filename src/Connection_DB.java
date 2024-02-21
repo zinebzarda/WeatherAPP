@@ -137,4 +137,16 @@ public class Connection_DB {
         System.out.println("City history updated successfully!");
     }
 
+    // ------------ Delete City History ------------------
+    public static void deleteCityHistory(int historicalDataId) throws SQLException {
+        String sql = "DELETE FROM cityhistory WHERE historicalDataId = ?";
+        Connection connection = getConnection();
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, historicalDataId);
+        statement.executeUpdate();
+        connection.close();
+        statement.close();
+        System.out.println("City history deleted successfully!");
+    }
+
 }

@@ -18,7 +18,7 @@ public class Menu {
             System.out.println("\t\t\t||------------|   5: Add City History                  |-----------||");
             System.out.println("\t\t\t||------------|   6: Display City History                 |-----------||");
             System.out.println("\t\t\t||------------|   7: Update City History                  |-----------||");
-            System.out.println("\t\t\t||------------|   8: Delete City                  |-----------||");
+            System.out.println("\t\t\t||------------|   8: Delete City History                  |-----------||");
             System.out.println("\t\t\t||------------|   9: Quitter application                    |-----------||");
             System.out.println("\t\t\t||======================================================================||");
             System.out.println("Enter votre choix: ");
@@ -88,6 +88,11 @@ public class Menu {
                     System.out.print("Température historique :");
                     temperature = new Scanner(System.in).nextInt();
                     Connection_DB.updateCityHistory(new CityHistory(historicalDataId, cityId, eventDate,temperature));
+                    break;
+                case 8:
+                    System.out.print("Enter City History ID to delete: ");
+                    historicalDataId = new Scanner(System.in).nextInt();
+                    Connection_DB.deleteCityHistory(historicalDataId);
                     break;
                 case 9 :
                     System.out.println(" Quitté  ");
