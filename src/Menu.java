@@ -52,7 +52,9 @@ public class Menu {
                     Connection_DB.updateCity(new City(cityId, cityName, currentTemperature,currentHumidity,currentWindSpeed));
                     break;
                 case 4:
-
+                    System.out.print("Enter City ID to delete: ");
+                    cityId = new Scanner(System.in).nextInt();
+                    Connection_DB.deleteCity(cityId);
                     break;
             }
         }while (choice != 5) ;

@@ -67,4 +67,16 @@ public class Connection_DB {
         System.out.println("City updated successfully!");
     }
 
+    // ------------ Delete City ------------------
+    public static void deleteCity(int cityId) throws SQLException {
+        String sql = "DELETE FROM city WHERE cityId = ?";
+        Connection connection = getConnection();
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, cityId);
+        statement.executeUpdate();
+        connection.close();
+        statement.close();
+        System.out.println("City deleted successfully!");
+    }
+
 }
