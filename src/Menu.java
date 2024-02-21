@@ -1,9 +1,13 @@
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 
 public class Menu {
     public static void main(String[] args) throws SQLException {
-        int choice, cityId;
+        int choice, cityId , historicalDataId ,temperature;
+        String eventDate;
         String cityName;
         float currentTemperature,currentHumidity,currentWindSpeed;
         do {
@@ -14,7 +18,10 @@ public class Menu {
             System.out.println("\t\t\t||------------|   2: Display All City                        |-----------||");
             System.out.println("\t\t\t||------------|   3: Update City                      |-----------||");
             System.out.println("\t\t\t||------------|   4: Delete City                  |-----------||");
-            System.out.println("\t\t\t||------------|   5: Quitter application                    |-----------||");
+            System.out.println("\t\t\t||------------|   5: Add City History                  |-----------||");
+            System.out.println("\t\t\t||------------|   6: Display City History                 |-----------||");
+            System.out.println("\t\t\t||------------|   7: Delete City                  |-----------||");
+            System.out.println("\t\t\t||------------|   8: Quitter application                    |-----------||");
             System.out.println("\t\t\t||======================================================================||");
             System.out.println("Enter votre choix: ");
             choice = new Scanner(System.in).nextInt();
@@ -56,7 +63,30 @@ public class Menu {
                     cityId = new Scanner(System.in).nextInt();
                     Connection_DB.deleteCity(cityId);
                     break;
+                case 5:
+                    System.out.print("Identifiant unique pour les données historiques :");
+                    historicalDataId = new Scanner(System.in).nextInt();
+                    System.out.print("Identifiant de la ville associée: ");
+                    cityId = new Scanner(System.in).nextInt();
+                    System.out.print("Date de l'événement météorologique historique :");
+                    eventDate = new Scanner(System.in).nextLine();
+                    System.out.print("Température historique :");
+                    temperature = new Scanner(System.in).nextInt();
+                    Connection_DB.addCityHistory(new CityHistory(historicalDataId, cityId, eventDate,temperature));
+                    break;
+                case 6:
+                    System.out.println("All city history:");
+                    for (CityHistory cityh : Connection_DB.getAllCityHistory()) {
+                        System.out.println(cityh);
+                    }
+                    break;
+
+                case 8 :
+                    System.out.println(" Quitté  ");
+                    break;
+                default: System.out.println("      Entrez un choix valid !       ");
+                    break;
             }
-        }while (choice != 5) ;
+        }while (choice != 8) ;
     }
 }

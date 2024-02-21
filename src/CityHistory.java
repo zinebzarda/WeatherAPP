@@ -1,13 +1,11 @@
-import java.util.Date;
-
 public class CityHistory {
 
     private Integer historicalDataId;
     private Integer cityId;
-    private Date eventDate;
+    private String eventDate;
     private Integer temperature;
 
-    public CityHistory(Integer historicalDataId, Integer cityId, Date eventDate, Integer temperature) {
+    public CityHistory(Integer historicalDataId, Integer cityId, String eventDate, Integer temperature) {
         this.historicalDataId = historicalDataId;
         this.cityId = cityId;
         this.eventDate = eventDate;
@@ -22,7 +20,7 @@ public class CityHistory {
         return cityId;
     }
 
-    public Date getEventDate() {
+    public String getEventDate() {
         return eventDate;
     }
 
@@ -38,11 +36,21 @@ public class CityHistory {
         this.cityId = cityId;
     }
 
-    public void setEventDate(Date eventDate) {
+    public void setEventDate(String eventDate) {
         this.eventDate = eventDate;
     }
 
     public void setTemperature(Integer temperature) {
         this.temperature = temperature;
     }
+
+    @Override
+    public String toString() {
+        return "CityHistory :\t" +
+                "historicalDataId=" + historicalDataId +
+                "\t, cityId=" + cityId +
+                " \t, eventDate =" + eventDate +
+                " \t, temperature =" + temperature;
+    }
+
 }

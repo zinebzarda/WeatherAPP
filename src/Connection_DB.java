@@ -9,6 +9,7 @@ public class Connection_DB {
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 
+    // +++++++++++++++++++++++++++++++City++++++++++++++++++++++++++
     // ----------AddCity--------
 
     public static void addCity(City city) throws SQLException {
@@ -77,6 +78,47 @@ public class Connection_DB {
         connection.close();
         statement.close();
         System.out.println("City deleted successfully!");
+    }
+
+    // ++++++++++++++++++++++++ CityHistory+++++++++++++++
+
+    //----------------- Add CityHistory------------
+    public static void addCityHistory(CityHistory cityH) throws SQLException {
+        String sql = "INSERT INTO cityhistory (historicalDataId, cityId, eventDate, temperature) " +
+                "  VALUES (?,?,?,?)";
+        Connection connection = getConnection();
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, cityH.getHistoricalDataId());
+        statement.setInt(2, cityH.getCityId());
+        statement.setString(3, cityH.getEventDate());
+        statement.setInt(4,cityH.getTemperature());
+        statement.executeUpdate();
+        connection.close();
+        statement.close();
+        System.out.println("City history add successfully!");
+    }
+
+
+    //----------------- Display CityHistory------------
+
+    public static List<CityHistory> getAllCityHistory() throws SQLException {
+        List<CityHistory> cityhs = new ArrayList<>();
+        String sql = "SELECT * FROM cityhistory";
+        Connection connection = getConnection();
+        PreparedStatement statement = connection.prepareStatement(sql);
+        ResultSet resultSet = statement.executeQuery();
+        while (resultSet.next()) {
+            int historicalDataId = resultSet.getInt("historicalDataId");
+            int cityId = resultSet.getInt("cityId");
+            String eventDate = resultSet.getString("eventDate");
+            int  temperature = resultSet.getInt("temperature");
+
+            cityhs.add(new CityHistory(historicalDataId, cityId, eventDate,temperature));
+        }
+        connection.close();
+        statement.close();
+        resultSet.close();
+        return cityhs;
     }
 
 }
