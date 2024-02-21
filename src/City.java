@@ -65,13 +65,13 @@ private Float currentHumidity;
 
     @Override
     public String toString() {
-        return "City{" +
-                "cityId=" + cityId +
-                ", cityName='" + cityName + '\'' +
-                ", currentTemperature=" + currentTemperature +
-                ", currentHumidity=" + currentHumidity +
-                ", currentWindSpeed=" + currentWindSpeed +
-                '}';
+        return "City :\t" +
+                "cityId = " + cityId +
+                "\t, cityName = " + cityName +
+                " \t, currentTemperature =" + currentTemperature +
+                " \t, currentHumidity =" + currentHumidity +
+                "\t, currentWindSpeed =" + currentWindSpeed
+                ;
     }
 
 }

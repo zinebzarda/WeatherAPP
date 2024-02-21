@@ -8,12 +8,12 @@ public class Menu {
         Float currentTemperature,currentHumidity,currentWindSpeed;
         do {
             System.out.println("\t\t\t||======================================================================||");
-            System.out.println("\t\t\t||------------|              Students Management            |-----------||");
+            System.out.println("\t\t\t||------------|              Menu                           |-----------||");
             System.out.println("\t\t\t||======================================================================||");
             System.out.println("\t\t\t||------------|   1: Add City                            |-----------||");
-            System.out.println("\t\t\t||------------|   2: Update City                         |-----------||");
+            System.out.println("\t\t\t||------------|   2:  Display All City                        |-----------||");
             System.out.println("\t\t\t||------------|   3: Delete City                         |-----------||");
-            System.out.println("\t\t\t||------------|   4: Display All City                    |-----------||");
+            System.out.println("\t\t\t||------------|   4:  Update City                   |-----------||");
             System.out.println("\t\t\t||------------|   5: Quitter application                    |-----------||");
             System.out.println("\t\t\t||======================================================================||");
             System.out.println("Enter votre choix: ");
@@ -33,13 +33,16 @@ public class Menu {
                     Connection_DB.addCity(new City(cityId, cityName, currentTemperature,currentHumidity,currentWindSpeed));
                     break;
                 case 2:
-//
+                    System.out.println("All city:");
+                   for (City city : Connection_DB.getAllCity()) {
+                        System.out.println(city);
+                    }
                     break;
                 case 3:
-//
+
                     break;
                 case 4:
-//
+
                     break;
             }
         }while (choice != 5) ;

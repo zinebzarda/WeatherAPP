@@ -27,7 +27,27 @@ public class Connection_DB {
         System.out.println("City add successfully!");
     }
 
+    // ---------------  Display All----------
+    public static List<City> getAllCity() throws SQLException {
+        List<City> citys = new ArrayList<>();
+        String sql = "SELECT * FROM city";
+        Connection connection = getConnection();
+        PreparedStatement statement = connection.prepareStatement(sql);
+        ResultSet resultSet = statement.executeQuery();
+        while (resultSet.next()) {
+            int cityId = resultSet.getInt("cityId");
+            String cityName = resultSet.getString("cityName");
+            Float currentTemperature = resultSet.getFloat("currentTemperature");
+            Float  currentHumidity = resultSet.getFloat("currentHumidity");
+            Float  currentWindSpeed = resultSet.getFloat("currentWindSpeed");
 
+            citys.add(new City(cityId, cityName, currentTemperature,currentHumidity,currentWindSpeed));
+        }
+        connection.close();
+        statement.close();
+        resultSet.close();
+        return citys;
+    }
 
     // ------------Update City -----------
 
