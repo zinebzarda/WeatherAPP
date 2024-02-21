@@ -5,15 +5,15 @@ public class Menu {
     public static void main(String[] args) throws SQLException {
         int choice, cityId;
         String cityName;
-        Float currentTemperature,currentHumidity,currentWindSpeed;
+        float currentTemperature,currentHumidity,currentWindSpeed;
         do {
             System.out.println("\t\t\t||======================================================================||");
             System.out.println("\t\t\t||------------|              Menu                           |-----------||");
             System.out.println("\t\t\t||======================================================================||");
             System.out.println("\t\t\t||------------|   1: Add City                            |-----------||");
-            System.out.println("\t\t\t||------------|   2:  Display All City                        |-----------||");
-            System.out.println("\t\t\t||------------|   3: Delete City                         |-----------||");
-            System.out.println("\t\t\t||------------|   4:  Update City                   |-----------||");
+            System.out.println("\t\t\t||------------|   2: Display All City                        |-----------||");
+            System.out.println("\t\t\t||------------|   3: Update City                      |-----------||");
+            System.out.println("\t\t\t||------------|   4: Delete City                  |-----------||");
             System.out.println("\t\t\t||------------|   5: Quitter application                    |-----------||");
             System.out.println("\t\t\t||======================================================================||");
             System.out.println("Enter votre choix: ");
@@ -39,7 +39,17 @@ public class Menu {
                     }
                     break;
                 case 3:
-
+                    System.out.print("Enter city ID to update :");
+                    cityId = new Scanner(System.in).nextInt();
+                    System.out.print("Nom de la ville : ");
+                    cityName = new Scanner(System.in).nextLine();
+                    System.out.print("Identifiant unique pour la ville :");
+                    currentTemperature = new Scanner(System.in).nextFloat();
+                    System.out.print("Taux d'humidité actuelle :");
+                    currentHumidity = new Scanner(System.in).nextFloat();
+                    System.out.print("Vitesse du vent actuelle:");
+                    currentWindSpeed = new Scanner(System.in).nextFloat();
+                    Connection_DB.updateCity(new City(cityId, cityName, currentTemperature,currentHumidity,currentWindSpeed));
                     break;
                 case 4:
 

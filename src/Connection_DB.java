@@ -51,4 +51,20 @@ public class Connection_DB {
 
     // ------------Update City -----------
 
+    public static void updateCity(City city) throws SQLException {
+        String sql = "UPDATE city SET cityId= ?,cityName=?,currentTemperature=?,currentHumidity=?,currentWindSpeed=? WHERE cityId=?";
+        Connection connection = getConnection();
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, city.getCityId());
+        statement.setString(2, city.getCityName());
+        statement.setFloat(3,city.getCurrentTemperature());
+        statement.setFloat(4,city.getCurrentHumidity());
+        statement.setFloat(5,city.getCurrentWindSpeed());
+        statement.setInt(6, city.getCityId());
+        statement.executeUpdate();
+        connection.close();
+        statement.close();
+        System.out.println("City updated successfully!");
+    }
+
 }
