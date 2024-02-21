@@ -121,4 +121,20 @@ public class Connection_DB {
         return cityhs;
     }
 
+    // ------------Update City History-----------
+
+    public static void updateCityHistory(CityHistory cityh) throws SQLException {
+        String sql = "UPDATE cityhistory SET cityId=?, eventDate=?, temperature=? WHERE historicalDataId=?";
+        Connection connection = getConnection();
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, cityh.getCityId());
+        statement.setString(2, cityh.getEventDate());
+        statement.setInt(3, cityh.getTemperature());
+        statement.setInt(4, cityh.getHistoricalDataId());
+        statement.executeUpdate();
+        connection.close();
+        statement.close();
+        System.out.println("City history updated successfully!");
+    }
+
 }
