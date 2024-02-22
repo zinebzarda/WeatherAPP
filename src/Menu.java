@@ -19,7 +19,8 @@ public class Menu {
             System.out.println("\t\t\t||------------|   6: Display City History                 |-----------||");
             System.out.println("\t\t\t||------------|   7: Update City History                  |-----------||");
             System.out.println("\t\t\t||------------|   8: Delete City History                  |-----------||");
-            System.out.println("\t\t\t||------------|   9: Quitter application                    |-----------||");
+            System.out.println("\t\t\t||------------|   9: Search and Display City Weather        |-----------||");
+            System.out.println("\t\t\t||------------|   10: Quitter application                    |-----------||");
             System.out.println("\t\t\t||======================================================================||");
             System.out.println("Enter votre choix: ");
             choice = new Scanner(System.in).nextInt();
@@ -96,7 +97,7 @@ public class Menu {
                     break;
                 case 9:
                     System.out.print("Enter city name to search: ");
-                    cityName = Scanner.next();
+                    cityName = new Scanner(System.in).nextLine();
                     City city = Connection_DB.getCityByName(cityName);
                     if (city != null) {
                         System.out.println("Current Weather for " + cityName + ":");
@@ -108,24 +109,11 @@ public class Menu {
                     }
                     break;
                 case 10:
-                    System.out.print("Enter city name to view weather history: ");
-                    cityName = Scanner.next();
-                    City cityHistory = Connection_DB.getCityByName(cityName);
-                    if (cityHistory != null) {
-                        System.out.println("Weather History for " + cityName + ":");
-                        for (CityHistory cityh : Connection_DB.addCityHistory(CityHistory.getCityId())) {
-                            System.out.println(cityh);
-                        }
-                    } else {
-                        System.out.println("City not found.");
-                    }
-                    break;
-                case 11 :
                     System.out.println(" Quitté  ");
                     break;
                 default: System.out.println("      Entrez un choix valid !       ");
                     break;
             }
-        }while (choice != 9) ;
+        }while (choice != 11) ;
     }
 }
