@@ -149,4 +149,23 @@ public class Connection_DB {
         System.out.println("City history deleted successfully!");
     }
 
+    //----------------- Search by cityName-----------------
+    public static City getCityByName(String cityName) throws SQLException {
+        String sql = "SELECT * FROM city WHERE cityName = ?";
+        Connection connection = getConnection();
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, cityName);
+        ResultSet resultSet = statement.executeQuery();
+        if (resultSet.next()) {
+            int cityId = resultSet.getInt("cityId");
+            float currentTemperature = resultSet.getFloat("currentTemperature");
+            float currentHumidity = resultSet.getFloat("currentHumidity");
+            float currentWindSpeed = resultSet.getFloat("currentWindSpeed");
+            return new City(cityId, cityName, currentTemperature, currentHumidity, currentWindSpeed);
+        } else {
+            return null;
+        }
+    }
+
+
 }

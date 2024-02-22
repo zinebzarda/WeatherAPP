@@ -94,7 +94,33 @@ public class Menu {
                     historicalDataId = new Scanner(System.in).nextInt();
                     Connection_DB.deleteCityHistory(historicalDataId);
                     break;
-                case 9 :
+                case 9:
+                    System.out.print("Enter city name to search: ");
+                    cityName = Scanner.next();
+                    City city = Connection_DB.getCityByName(cityName);
+                    if (city != null) {
+                        System.out.println("Current Weather for " + cityName + ":");
+                        System.out.println("Temperature: " + city.getCurrentTemperature());
+                        System.out.println("Humidity: " + city.getCurrentHumidity());
+                        System.out.println("Wind Speed: " + city.getCurrentWindSpeed());
+                    } else {
+                        System.out.println("City not found.");
+                    }
+                    break;
+                case 10:
+                    System.out.print("Enter city name to view weather history: ");
+                    cityName = Scanner.next();
+                    City cityHistory = Connection_DB.getCityByName(cityName);
+                    if (cityHistory != null) {
+                        System.out.println("Weather History for " + cityName + ":");
+                        for (CityHistory cityh : Connection_DB.addCityHistory(CityHistory.getCityId())) {
+                            System.out.println(cityh);
+                        }
+                    } else {
+                        System.out.println("City not found.");
+                    }
+                    break;
+                case 11 :
                     System.out.println(" Quitté  ");
                     break;
                 default: System.out.println("      Entrez un choix valid !       ");
