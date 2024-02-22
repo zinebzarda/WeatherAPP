@@ -1,26 +1,31 @@
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 public class Menu {
     public static void main(String[] args) throws SQLException {
         int choice, cityId , historicalDataId ,temperature;
-        String eventDate;
-        String cityName;
+        LocalDate eventDate=null;
+        String dateEvent;
+        String cityName = null;
+        DateTimeFormatter formatter=DateTimeFormatter.ofPattern("dd/MM/yyyy");
         float currentTemperature,currentHumidity,currentWindSpeed;
         do {
             System.out.println("\t\t\t||======================================================================||");
             System.out.println("\t\t\t||------------|              Menu                           |-----------||");
             System.out.println("\t\t\t||======================================================================||");
-            System.out.println("\t\t\t||------------|   1: Add City                            |-----------||");
-            System.out.println("\t\t\t||------------|   2: Display All City                        |-----------||");
-            System.out.println("\t\t\t||------------|   3: Update City                      |-----------||");
-            System.out.println("\t\t\t||------------|   4: Delete City                  |-----------||");
-            System.out.println("\t\t\t||------------|   5: Add City History                  |-----------||");
-            System.out.println("\t\t\t||------------|   6: Display City History                 |-----------||");
-            System.out.println("\t\t\t||------------|   7: Update City History                  |-----------||");
-            System.out.println("\t\t\t||------------|   8: Delete City History                  |-----------||");
+            System.out.println("\t\t\t||------------|   1: Add City                               |-----------||");
+            System.out.println("\t\t\t||------------|   2: Display All City                       |-----------||");
+            System.out.println("\t\t\t||------------|   3: Update City                            |-----------||");
+            System.out.println("\t\t\t||------------|   4: Delete City                            |-----------||");
+            System.out.println("\t\t\t||------------|   5: Add City History                       |-----------||");
+            System.out.println("\t\t\t||------------|   6: Display City History                   |-----------||");
+            System.out.println("\t\t\t||------------|   7: Update City History                    |-----------||");
+            System.out.println("\t\t\t||------------|   8: Delete City History                    |-----------||");
             System.out.println("\t\t\t||------------|   9: Search and Display City Weather        |-----------||");
-            System.out.println("\t\t\t||------------|   10: Quitter application                    |-----------||");
+            System.out.println("\t\t\t||------------|   10: Quitter application                   |-----------||");
             System.out.println("\t\t\t||======================================================================||");
             System.out.println("Enter votre choix: ");
             choice = new Scanner(System.in).nextInt();
@@ -68,7 +73,8 @@ public class Menu {
                     System.out.print("Identifiant de la ville associée: ");
                     cityId = new Scanner(System.in).nextInt();
                     System.out.print("Date de l'événement météorologique historique :");
-                    eventDate = new Scanner(System.in).nextLine();
+                    dateEvent = new Scanner(System.in).nextLine();
+                    eventDate= LocalDate.parse(dateEvent,formatter);
                     System.out.print("Température historique :");
                     temperature = new Scanner(System.in).nextInt();
                     Connection_DB.addCityHistory(new CityHistory(historicalDataId, cityId, eventDate,temperature));
@@ -80,12 +86,14 @@ public class Menu {
                     }
                     break;
                 case 7:
+
                     System.out.print("Enter city history ID to update :");
                     historicalDataId = new Scanner(System.in).nextInt();
                     System.out.print("id de la ville : ");
                     cityId = new Scanner(System.in).nextInt();
                     System.out.print("Date de l'événement météorologique historique :");
-                    eventDate = new Scanner(System.in).nextLine();
+                    dateEvent = new Scanner(System.in).nextLine();
+                    eventDate= LocalDate.parse(dateEvent,formatter);
                     System.out.print("Température historique :");
                     temperature = new Scanner(System.in).nextInt();
                     Connection_DB.updateCityHistory(new CityHistory(historicalDataId, cityId, eventDate,temperature));
@@ -97,13 +105,14 @@ public class Menu {
                     break;
                 case 9:
                     System.out.print("Enter city name to search: ");
-                    cityName = new Scanner(System.in).nextLine();
-                    City city = Connection_DB.getCityByName(cityName);
-                    if (city != null) {
-                        System.out.println("Current Weather for " + cityName + ":");
-                        System.out.println("Temperature: " + city.getCurrentTemperature());
-                        System.out.println("Humidity: " + city.getCurrentHumidity());
-                        System.out.println("Wind Speed: " + city.getCurrentWindSpeed());
+                    String Name = new Scanner(System.in).nextLine();
+                    CityHistory cityHistory = Connection_DB.getCityByName(Name);
+                    if (cityHistory != null) {
+                        for (City city : Connection_DB.getAllCity()) {
+                            System.out.println("Current Weather for " + Name + ":");
+                            System.out.println("Temperature: " + cityHistory.getTemperature());
+                            System.out.println("Date: " + cityHistory.getEventDate());
+                        }
                     } else {
                         System.out.println("City not found.");
                     }

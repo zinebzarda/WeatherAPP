@@ -1,4 +1,6 @@
 import java.sql.*;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.*;
 public class Connection_DB {
     static final String URL = "jdbc:mysql://localhost:3306/weatherapp?serverTimezone=UTC";
@@ -90,7 +92,7 @@ public class Connection_DB {
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setInt(1, cityH.getHistoricalDataId());
         statement.setInt(2, cityH.getCityId());
-        statement.setString(3, cityH.getEventDate());
+        statement.setDate(3, Date.valueOf(cityH.getEventDate()));
         statement.setInt(4,cityH.getTemperature());
         statement.executeUpdate();
         connection.close();
@@ -110,7 +112,7 @@ public class Connection_DB {
         while (resultSet.next()) {
             int historicalDataId = resultSet.getInt("historicalDataId");
             int cityId = resultSet.getInt("cityId");
-            String eventDate = resultSet.getString("eventDate");
+            LocalDate eventDate = resultSet.getDate("eventDate").toLocalDate();
             int  temperature = resultSet.getInt("temperature");
 
             cityhs.add(new CityHistory(historicalDataId, cityId, eventDate,temperature));
@@ -128,7 +130,7 @@ public class Connection_DB {
         Connection connection = getConnection();
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setInt(1, cityh.getCityId());
-        statement.setString(2, cityh.getEventDate());
+        statement.setDate(2, Date.valueOf(cityh.getEventDate()));
         statement.setInt(3, cityh.getTemperature());
         statement.setInt(4, cityh.getHistoricalDataId());
         statement.executeUpdate();
@@ -150,18 +152,19 @@ public class Connection_DB {
     }
 
     //----------------- Search by cityName-----------------
-    public static City getCityByName(String cityName) throws SQLException {
-        String sql = "SELECT * FROM city WHERE cityName = ?";
+    public static CityHistory getCityByName(String cityName) throws SQLException {
+        String sql = "SELECT * FROM city,cityHistory WHERE city.cityName = ?";
         Connection connection = getConnection();
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setString(1, cityName);
         ResultSet resultSet = statement.executeQuery();
+        CityHistory cityH = null;
         if (resultSet.next()) {
+            int historicalDataId = resultSet.getInt("historicalDataId");
             int cityId = resultSet.getInt("cityId");
-            float currentTemperature = resultSet.getFloat("currentTemperature");
-            float currentHumidity = resultSet.getFloat("currentHumidity");
-            float currentWindSpeed = resultSet.getFloat("currentWindSpeed");
-            return new City(cityId, cityName, currentTemperature, currentHumidity, currentWindSpeed);
+            LocalDate eventDate = resultSet.getDate("eventDate").toLocalDate();
+            int temperature = resultSet.getInt("temperature");
+            return new CityHistory(historicalDataId, cityId,eventDate, temperature);
         } else {
             return null;
         }

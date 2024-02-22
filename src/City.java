@@ -20,7 +20,7 @@ private Float currentHumidity;
      this.currentWindSpeed = currentWindSpeed;
  }
 
- // -------------- grtters---------
+ // -------------- getters---------
     public Integer getCityId() {
         return cityId;
     }
