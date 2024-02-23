@@ -5,35 +5,38 @@ import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 public class Menu {
+    // ANSI escape codes for colors
+    public static final  String ANSI_BRAWN = "\u001B[38;5;94m";
+    public static final  String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_CYAN = "\u001B[36m";
     public static void main(String[] args) throws SQLException {
         int choice, cityId , historicalDataId ,temperature;
         LocalDate eventDate=null;
         String dateEvent;
-        String cityName = null;
+        String cityName;
         DateTimeFormatter formatter=DateTimeFormatter.ofPattern("dd/MM/yyyy");
         float currentTemperature,currentHumidity,currentWindSpeed;
         do {
-            System.out.println("\t\t\t||======================================================================||");
-            System.out.println("\t\t\t||------------|              Menu                           |-----------||");
-            System.out.println("\t\t\t||======================================================================||");
-            System.out.println("\t\t\t||------------|   1: Add City                               |-----------||");
-            System.out.println("\t\t\t||------------|   2: Display All City                       |-----------||");
-            System.out.println("\t\t\t||------------|   3: Update City                            |-----------||");
-            System.out.println("\t\t\t||------------|   4: Delete City                            |-----------||");
-            System.out.println("\t\t\t||------------|   5: Add City History                       |-----------||");
-            System.out.println("\t\t\t||------------|   6: Display City History                   |-----------||");
-            System.out.println("\t\t\t||------------|   7: Update City History                    |-----------||");
-            System.out.println("\t\t\t||------------|   8: Delete City History                    |-----------||");
-            System.out.println("\t\t\t||------------|   9: Search and Display City Weather        |-----------||");
-            System.out.println("\t\t\t||------------|   10: Quitter application                   |-----------||");
-            System.out.println("\t\t\t||======================================================================||");
-            System.out.println("Enter votre choix: ");
+            System.out.println(ANSI_CYAN+"\t\t\t||==================================================================================================||");
+            System.out.println("\t\t\t||---------------------------------|            Menu               |--------------------------------||");
+            System.out.println("\t\t\t||==================================================================================================||"+ANSI_RESET);
+            System.out.println(ANSI_GREEN+"\t\t\t||------------|   1: Add City                           |   6:  Add City History        |-----------||");
+            System.out.println(ANSI_BLUE+"\t\t\t||------------|   2: Display All City                   |   7:  Display City History    |-----------||");
+            System.out.println(ANSI_YELLOW+"\t\t\t||------------|   3: Update City                        |   8:  Update City History     |-----------||");
+            System.out.println(ANSI_RED+"\t\t\t||------------|   4: Delete City                        |   9:  Delete City History     |-----------||");
+            System.out.println("\t\t\t||------------|   5: Search and Display City Weather    |   10: Quitter application     |-----------||");
+            System.out.println(ANSI_CYAN+"\t\t\t||==================================================================================================||"+ANSI_RESET);
+            System.out.println(ANSI_BRAWN+"Enter votre choix: "+ANSI_RESET);
             choice = new Scanner(System.in).nextInt();
             switch (choice) {
                 case 1:
-                    System.out.print("Identifiant unique pour la ville :");
+                    System.out.print(ANSI_GREEN+" EntrerIdentifiant unique pour la ville :");
                     cityId= new Scanner(System.in).nextInt();
-                    System.out.print("Nom de la ville : ");
+                    System.out.print(" Entrer Nom de la ville : ");
                     cityName = new Scanner(System.in).nextLine();
                     System.out.print("Température actuelle :");
                     currentTemperature = new Scanner(System.in).nextFloat();
@@ -44,13 +47,13 @@ public class Menu {
                     Connection_DB.addCity(new City(cityId, cityName, currentTemperature,currentHumidity,currentWindSpeed));
                     break;
                 case 2:
-                    System.out.println("All city:");
+                    System.out.println(ANSI_BLUE+"All city:");
                    for (City city : Connection_DB.getAllCity()) {
                         System.out.println(city);
                     }
                     break;
                 case 3:
-                    System.out.print("Enter city ID to update :");
+                    System.out.print(ANSI_YELLOW+"Enter city ID to update :");
                     cityId = new Scanner(System.in).nextInt();
                     System.out.print("Nom de la ville : ");
                     cityName = new Scanner(System.in).nextLine();
@@ -63,12 +66,26 @@ public class Menu {
                     Connection_DB.updateCity(new City(cityId, cityName, currentTemperature,currentHumidity,currentWindSpeed));
                     break;
                 case 4:
-                    System.out.print("Enter City ID to delete: ");
+                    System.out.print(ANSI_RED+"Enter City ID to delete: ");
                     cityId = new Scanner(System.in).nextInt();
                     Connection_DB.deleteCity(cityId);
                     break;
                 case 5:
-                    System.out.print("Identifiant unique pour les données historiques :");
+                    System.out.print("Enter city name to search: ");
+                    String Name = new Scanner(System.in).nextLine();
+                    CityHistory cityHistory = Connection_DB.getCityByName(Name);
+                    if (cityHistory != null) {
+                        for (City city : Connection_DB.getAllCity()) {
+                            System.out.println(ANSI_BRAWN+"Current Weather for " + Name + ":");
+                            System.out.println("Temperature: " + cityHistory.getTemperature());
+                            System.out.println("Date: " + cityHistory.getEventDate());
+                        }
+                    } else {
+                        System.out.println(ANSI_RED+"City not found.");
+                    }
+                    break;
+                case 6:
+                    System.out.print(ANSI_GREEN+"Identifiant unique pour les données historiques :");
                     historicalDataId = new Scanner(System.in).nextInt();
                     System.out.print("Identifiant de la ville associée: ");
                     cityId = new Scanner(System.in).nextInt();
@@ -78,44 +95,31 @@ public class Menu {
                     System.out.print("Température historique :");
                     temperature = new Scanner(System.in).nextInt();
                     Connection_DB.addCityHistory(new CityHistory(historicalDataId, cityId, eventDate,temperature));
+
                     break;
-                case 6:
-                    System.out.println("All city history:");
+                case 7:
+                    System.out.println(ANSI_BLUE+"All city history:");
                     for (CityHistory cityh : Connection_DB.getAllCityHistory()) {
                         System.out.println(cityh);
                     }
-                    break;
-                case 7:
 
-                    System.out.print("Enter city history ID to update :");
+                    break;
+                case 8:
+                    System.out.print(ANSI_YELLOW+"Enter city history ID to update :");
                     historicalDataId = new Scanner(System.in).nextInt();
                     System.out.print("id de la ville : ");
                     cityId = new Scanner(System.in).nextInt();
-                    System.out.print("Date de l'événement météorologique historique :");
+                    System.out.print("Date de l'événement météorologique historique (dd/MM/yyyy) :");
                     dateEvent = new Scanner(System.in).nextLine();
                     eventDate= LocalDate.parse(dateEvent,formatter);
                     System.out.print("Température historique :");
                     temperature = new Scanner(System.in).nextInt();
                     Connection_DB.updateCityHistory(new CityHistory(historicalDataId, cityId, eventDate,temperature));
                     break;
-                case 8:
-                    System.out.print("Enter City History ID to delete: ");
+                case 9:
+                    System.out.print(ANSI_RED+"Enter City History ID to delete: ");
                     historicalDataId = new Scanner(System.in).nextInt();
                     Connection_DB.deleteCityHistory(historicalDataId);
-                    break;
-                case 9:
-                    System.out.print("Enter city name to search: ");
-                    String Name = new Scanner(System.in).nextLine();
-                    CityHistory cityHistory = Connection_DB.getCityByName(Name);
-                    if (cityHistory != null) {
-                        for (City city : Connection_DB.getAllCity()) {
-                            System.out.println("Current Weather for " + Name + ":");
-                            System.out.println("Temperature: " + cityHistory.getTemperature());
-                            System.out.println("Date: " + cityHistory.getEventDate());
-                        }
-                    } else {
-                        System.out.println("City not found.");
-                    }
                     break;
                 case 10:
                     System.out.println(" Quitté  ");

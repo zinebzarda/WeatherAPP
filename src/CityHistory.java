@@ -1,6 +1,7 @@
 import java.time.LocalDate;
 
 public class CityHistory {
+    public static final String ANSI_PURPLE = "\u001B[35m";
 
     private Integer historicalDataId;
     private Integer cityId;
@@ -51,7 +52,7 @@ public class CityHistory {
 
     @Override
     public String toString() {
-        return "CityHistory :\t" +
+        return ANSI_PURPLE+"CityHistory :\t" +
                 "historicalDataId=" + historicalDataId +
                 "\t, cityId=" + cityId +
                 " \t, eventDate =" + eventDate +
