@@ -1,3 +1,7 @@
+import javafx.scene.paint.Stop;
+import sun.awt.geom.AreaOp;
+
+import javax.xml.soap.SOAPPart;
 import java.sql.*;
 import java.sql.Date;
 import java.time.LocalDate;
@@ -33,7 +37,7 @@ public class Connection_DB {
     // ---------------  Display All----------
     public static List<City> getAllCity() throws SQLException {
         List<City> citys = new ArrayList<>();
-        String sql = "SELECT * FROM city";
+        String sql = "SELECT * FROM city where currentHumidity<6";
         Connection connection = getConnection();
         PreparedStatement statement = connection.prepareStatement(sql);
         ResultSet resultSet = statement.executeQuery();
@@ -43,13 +47,14 @@ public class Connection_DB {
             Float currentTemperature = resultSet.getFloat("currentTemperature");
             Float  currentHumidity = resultSet.getFloat("currentHumidity");
             Float  currentWindSpeed = resultSet.getFloat("currentWindSpeed");
-
             citys.add(new City(cityId, cityName, currentTemperature,currentHumidity,currentWindSpeed));
         }
+      //citys.stream().filter(city -> city.getCurrentHumidity()<6).forEach(city -> System.out.println(city.getCityName()));
+
         connection.close();
         statement.close();
         resultSet.close();
-        return citys;
+       return citys;
     }
 
     // ------------Update City -----------
@@ -152,23 +157,44 @@ public class Connection_DB {
     }
 
     //----------------- Search by cityName-----------------
-    public static CityHistory getCityByName(String cityName) throws SQLException {
-        String sql = "SELECT * FROM city,cityHistory WHERE city.cityName = ?";
-        Connection connection = getConnection();
-        PreparedStatement statement = connection.prepareStatement(sql);
-        statement.setString(1, cityName);
-        ResultSet resultSet = statement.executeQuery();
-        CityHistory cityH = null;
-        if (resultSet.next()) {
-            int historicalDataId = resultSet.getInt("historicalDataId");
-            int cityId = resultSet.getInt("cityId");
-            LocalDate eventDate = resultSet.getDate("eventDate").toLocalDate();
+    public static void searchCityHistory(String cityName)throws SQLException {
+        String sql = "SELECT cityhistory.historicalDataId, cityhistory.cityId, cityhistory.eventDate, cityhistory.temperature, city.cityName " +
+                "FROM CityHistory cityhistory " +
+                "INNER JOIN  city ON cityhistory.cityId = city.cityId " +
+                "WHERE city.cityName = ?";
+        PreparedStatement ps = Connection_DB.getConnection().prepareStatement(sql);
+        ps.setString(1, cityName);
+        ResultSet resultSet = ps.executeQuery();
+        while (resultSet.next()) {
+            int HistoricaldataID = resultSet.getInt("historicalDataId");
+           int  cityId = resultSet.getInt("cityId");
+            String cityname = resultSet.getString("cityName");
+            Date eventDate = resultSet.getDate("eventDate");
             int temperature = resultSet.getInt("temperature");
-            return new CityHistory(historicalDataId, cityId,eventDate, temperature);
-        } else {
-            return null;
+            System.out.println(" City ID: " + cityId +
+                    ", City Name: " + cityname + ", Event Date: " + eventDate + ", Temperature: " + temperature);
         }
+
     }
+
+
+//    public static void getCityHumidity() throws SQLException {
+//        ArrayList<City> arrayHumidity = new ArrayList<>();
+//        Connection connection = getConnection();
+//        String getCityHumidity = "SELECT * FROM City where currentHumidity >= 30";
+//        PreparedStatement statement = connection.prepareStatement(getCityHumidity);
+//        ResultSet resultSet = statement.executeQuery();
+//        while (resultSet.next()){
+//            City city = new City();
+//            city.setCityName(resultSet.getString("cityName"));
+//            city.setCityId(resultSet.getInt("cityId"));
+//            city.setCurrentTemperature(resultSet.getInt("currentTemperature"));
+//            city.setCurrentHumidity(resultSet.getInt("currentHumidity"));
+//            city.setCurrentHumidity(resultSet.getInt("currentWindSpeed"));
+//
+//        }
+//        arrayHumidity.stream().map(city -> city.getCityName()).forEach(name -> System.out.println("Name"+name));
+//    }
 
 
 }

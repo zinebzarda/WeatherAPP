@@ -71,19 +71,10 @@ public class Menu {
                     Connection_DB.deleteCity(cityId);
                     break;
                 case 5:
-                    System.out.print("Enter city name to search: ");
-                    String Name = new Scanner(System.in).nextLine();
-                    CityHistory cityHistory = Connection_DB.getCityByName(Name);
-                    if (cityHistory != null) {
-                        for (City city : Connection_DB.getAllCity()) {
-                            System.out.println(ANSI_BRAWN+"Current Weather for " + Name + ":");
-                            System.out.println("Temperature: " + cityHistory.getTemperature());
-                            System.out.println("Date: " + cityHistory.getEventDate());
-                        }
-                    } else {
-                        System.out.println(ANSI_RED+"City not found.");
-                    }
-                    break;
+                   System.out.println(ANSI_BLUE+                                                                                                                                                                                                       "-----<Entrez Identifiant de la ville associée :");
+                        cityName = new Scanner(System.in).nextLine();
+                        Connection_DB.searchCityHistory(cityName);
+                        break;
                 case 6:
                     System.out.print(ANSI_GREEN+"Identifiant unique pour les données historiques :");
                     historicalDataId = new Scanner(System.in).nextInt();
