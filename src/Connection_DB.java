@@ -37,7 +37,7 @@ public class Connection_DB {
     // ---------------  Display All----------
     public static List<City> getAllCity() throws SQLException {
         List<City> citys = new ArrayList<>();
-        String sql = "SELECT * FROM city where currentHumidity<6";
+        String sql = "SELECT * FROM city";
         Connection connection = getConnection();
         PreparedStatement statement = connection.prepareStatement(sql);
         ResultSet resultSet = statement.executeQuery();
@@ -49,7 +49,7 @@ public class Connection_DB {
             Float  currentWindSpeed = resultSet.getFloat("currentWindSpeed");
             citys.add(new City(cityId, cityName, currentTemperature,currentHumidity,currentWindSpeed));
         }
-      //citys.stream().filter(city -> city.getCurrentHumidity()<6).forEach(city -> System.out.println(city.getCityName()));
+    //citys.stream().filter(city -> city.getCurrentHumidity()<6).forEach(t-> System.out.println(t.getCityName()));
 
         connection.close();
         statement.close();
